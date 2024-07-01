@@ -1,4 +1,4 @@
-package com.example.p3portaillocataireback.rentals;
+package com.example.p3portaillocataireback.messages;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,17 +14,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class RentalsEntity {
-
+public class Messages {
     @Id
     @GeneratedValue
     private Integer id;
-    private String name;
-    private Float surface;
-    private Float price;
-    private String picture;
-    private String description;
+    private String message;
     private Date created_at;
     private Date updated_at;
-
 }
