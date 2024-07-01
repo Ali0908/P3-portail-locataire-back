@@ -19,6 +19,7 @@ CREATE TABLE `RENTALS` (
                            `updated_at` timestamp
 );
 
+
 CREATE TABLE `MESSAGES` (
                             `id` integer PRIMARY KEY AUTO_INCREMENT,
                             `rental_id` integer NOT NULL,  -- Add NOT NULL constraint
