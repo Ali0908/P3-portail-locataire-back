@@ -1,5 +1,6 @@
 package com.example.p3portaillocataireback.token;
 
+import com.example.p3portaillocataireback.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,5 +27,9 @@ public class Token {
     public boolean revoked;
 
     public boolean expired;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    public User user;
 }
 
