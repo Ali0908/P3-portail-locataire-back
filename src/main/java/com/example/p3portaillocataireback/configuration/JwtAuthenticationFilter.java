@@ -1,4 +1,5 @@
 package com.example.p3portaillocataireback.configuration;
+
 import com.example.p3portaillocataireback.token.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -40,7 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Extraction du JWT
         jwt = authHeader.substring(7);
         // Extraction du username du JWT
-        userEmail = (String) jwtService.extractUsername(jwt);
+        userEmail = jwtService.extractUsername(jwt);
         // 2. Validation du JWT
         // Si username et pas d'authentification
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {

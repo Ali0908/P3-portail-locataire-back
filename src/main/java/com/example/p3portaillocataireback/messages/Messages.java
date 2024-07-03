@@ -1,8 +1,8 @@
 package com.example.p3portaillocataireback.messages;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.example.p3portaillocataireback.rentals.Rentals;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -21,4 +21,9 @@ public class Messages {
     private String message;
     private Date created_at;
     private Date updated_at;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rentals_id")
+    @JsonBackReference
+    public Rentals rentals;
 }

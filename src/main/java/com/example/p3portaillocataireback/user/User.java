@@ -1,5 +1,6 @@
 package com.example.p3portaillocataireback.user;
 
+import com.example.p3portaillocataireback.rentals.Rentals;
 import com.example.p3portaillocataireback.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
+
+    @OneToMany(mappedBy = "user")
+    private List<Rentals> rentals;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
