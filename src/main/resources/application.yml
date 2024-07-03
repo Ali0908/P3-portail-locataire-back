@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306
+    url: jdbc:mariadb://localhost:3306/PORTAIL_LOCATION
     username: root
     password: root
     driver-class-name: org.mariadb.jdbc.Driver
@@ -20,5 +20,7 @@ application:
       expiration: 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
+server:
+  port: 3001
 
 

@@ -31,7 +31,7 @@ public class AuthService {
         // Création d'un utilisateur
         var user = User.builder()
                 //  Conversion du nom d'utilisateur en minuscules
-                .username(request.getUsername())
+                .name(request.getName())
                 // Conversion de l'email en minuscules
                 .email(request.getEmail())
                 // Encodage du mot de passe

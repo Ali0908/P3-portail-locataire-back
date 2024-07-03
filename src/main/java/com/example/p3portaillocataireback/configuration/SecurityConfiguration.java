@@ -25,16 +25,7 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
     // Liste des URL autorisées sans authentification
-    private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
-            "/api/v1/blog",
-            "/api/v1/category",
-            "api/v1/article",
-            "/api/v1/comment",
-            "/api/v1/user",
-            "/api/v1/blog",
-            "/api/v1/token",
-            "/api/v1/article/blog/{blog-id}",
-            "/api/v1/comment/article/{article-id}",
+    private static final String[] WHITE_LIST_URL = {"/api/auth/**",
     };
 
     @Bean // Crée un bean Spring pour la configuration de la sécurité
@@ -49,11 +40,11 @@ public class SecurityConfiguration {
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
                                 // Requiert l'authentification pour les autres URL en fonction des rôles
-                                .requestMatchers("/api/v1/blog/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("/api/v1/category/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("/api/v1/article/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("/api/v1/comment/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("/api/v1/user/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+//                                .requestMatchers("/api/v1/blog/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+//                                .requestMatchers("/api/v1/category/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+//                                .requestMatchers("/api/v1/article/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+//                                .requestMatchers("/api/v1/comment/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+//                                .requestMatchers("/api/v1/user/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                 // Toute autre requete nécessite l'authentification
                                 .anyRequest()
                                 .authenticated()
