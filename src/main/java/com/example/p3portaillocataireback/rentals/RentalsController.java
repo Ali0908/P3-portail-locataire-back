@@ -14,6 +14,7 @@ public class RentalsController {
     private final RentalsService rentalsService;
 
     @PostMapping("/create")
+
     public ResponseEntity<RentalsResponseDto> create(
             @RequestBody RentalsDto rentalsdto) {
         return ResponseEntity.ok(rentalsService.create(rentalsdto));
