@@ -37,20 +37,17 @@ public class AuthService {
                 // Encodage du mot de passe
                 .password(passwordEncoder.encode(request.getPassword()))
                 // Rôle par défaut
-                .role(Role.USER)
+                .role((Role.USER))
                 .build();
         // Enregistrement de l'utilisateur en base de données
         var savedUser = repository.save(user);
         // Génération du jeton d'accès
         var jwtToken = jwtService.generateToken(user);
-        // Génération du jeton de rafraîchissement
-        var refreshToken = jwtService.generateRefreshToken(user);
         // Sauvegarde du jeton d'accès pour l'utilisateur (implémentation non fournie)
         saveUserToken(savedUser, jwtToken);
         // Construction de la réponse d'authentification
         return AuthResponse.builder()
                 .accessToken(jwtToken)
-                .refreshToken(refreshToken)
                 .build();
     }
 
@@ -65,12 +62,10 @@ public class AuthService {
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
         return AuthResponse.builder()
                 .accessToken(jwtToken)
-                .refreshToken(refreshToken)
                 .build();
     }
 
@@ -94,33 +89,5 @@ public class AuthService {
                 .revoked(false)
                 .build();
         tokenRepository.save(token);
-    }
-
-    public void refreshToken(
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) throws  IOException {
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String refreshToken;
-        final String userEmail;
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return;
-        }
-        refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
-        if (userEmail != null) {
-            var user = this.repository.findByEmail(userEmail)
-                    .orElseThrow();
-            if (jwtService.isTokenValid(refreshToken, user)) {
-                var accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
-                var authResponse = AuthResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
-            }
-        }
     }
 }

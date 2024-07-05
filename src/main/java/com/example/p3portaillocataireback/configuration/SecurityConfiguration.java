@@ -40,11 +40,8 @@ public class SecurityConfiguration {
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
                                 // Requiert l'authentification pour les autres URL en fonction des rôles
-                                .requestMatchers("/api/v1/blog/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("/api/v1/category/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("/api/v1/article/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("/api/v1/comment/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("/api/v1/user/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers("/api/rentals/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers("/api/messages/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                 // Toute autre requete nécessite l'authentification
                                 .anyRequest()
                                 .authenticated()
