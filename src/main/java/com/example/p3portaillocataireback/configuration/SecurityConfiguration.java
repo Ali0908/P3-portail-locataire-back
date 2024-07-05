@@ -25,7 +25,7 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
     // Liste des URL autorisées sans authentification
-    private static final String[] WHITE_LIST_URL = {"/api/auth/**",
+    private static final String[] WHITE_LIST_URL = {"/api/auth/**,"
     };
 
     @Bean // Crée un bean Spring pour la configuration de la sécurité
