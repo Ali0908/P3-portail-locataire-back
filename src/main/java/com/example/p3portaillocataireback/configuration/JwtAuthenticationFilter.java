@@ -40,14 +40,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         // Extraction du JWT
         jwt = authHeader.substring(7);
-        // Log du JWT pour débogage
-//        System.out.println("Extracted JWT: " + jwt);
 
         // Extraction du username du JWT
         try {
             userEmail = jwtService.extractUsername(jwt);
         } catch (Exception e) {
-//            System.err.println("Invalid JWT: " + e.getMessage());
+            System.err.println("Invalid JWT: " + e.getMessage());
             filterChain.doFilter(request, response);
             return;
         }

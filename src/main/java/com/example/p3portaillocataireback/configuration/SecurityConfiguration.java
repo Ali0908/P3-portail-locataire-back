@@ -25,34 +25,23 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
     // Liste des URL autorisées sans authentification
-    private static final String[] WHITE_LIST_URL = {"/api/auth/**,"
-    };
+//    private static final String[] WHITE_LIST_URL = {"/api/auth/register,"
+//    };
 
-    @Bean // Crée un bean Spring pour la configuration de la sécurité
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Désactive la protection CSRF (non applicable aux API stateless)
                 .csrf(AbstractHttpConfigurer::disable)
-                // Configure l'autorisation des requêtes HTTP
-
                 .authorizeHttpRequests(req ->
-                        // Autorise l'accès aux URL de la liste blanche
-                        req.requestMatchers(WHITE_LIST_URL)
+                        req.requestMatchers("/api/auth/register, /api/auth/login,")
                                 .permitAll()
-                                // Requiert l'authentification pour les autres URL en fonction des rôles
-                                .requestMatchers("/api/rentals/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("/api/messages/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                // Toute autre requete nécessite l'authentification
+                                .requestMatchers("api/rentals/create").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )
-                // Désactive la gestion des sessions (stateless)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
-                // Définit le fournisseur d'authentification
                 .authenticationProvider(authenticationProvider)
-                // Ajoute le filtre d'authentification JWT avant la chaîne de filtrage par défaut
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                // Configure la déconnexion
                 .logout(logout ->
                         logout.logoutUrl("/api/v1/auth/logout")
                                 .addLogoutHandler(logoutHandler)
@@ -61,3 +50,4 @@ public class SecurityConfiguration {
         return http.build();
     }
 }
+
