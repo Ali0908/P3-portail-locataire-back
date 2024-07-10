@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Rentals {
+public class Rental {
 
     @Id
     @GeneratedValue
@@ -27,8 +27,8 @@ public class Rentals {
     private Timestamp created_at;
     private Timestamp updated_at;
 
-    @OneToMany(mappedBy = "rentals")
-    private List<Messages> messages;
+    @OneToMany(mappedBy = "rental")
+    private List<Message> messages;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")

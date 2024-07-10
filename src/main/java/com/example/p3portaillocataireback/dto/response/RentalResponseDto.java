@@ -1,6 +1,6 @@
 package com.example.p3portaillocataireback.dto.response;
 
-public record RentalsResponseDto(
+public record RentalResponseDto(
         Integer id,
         String name,
         Float surface,

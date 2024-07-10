@@ -1,4 +1,4 @@
 package com.example.p3portaillocataireback.repository;
 
-public interface MessagesRepository {
+public interface MessageRepository {
 }

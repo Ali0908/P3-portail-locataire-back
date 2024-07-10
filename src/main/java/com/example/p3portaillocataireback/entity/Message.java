@@ -13,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Messages {
+public class Message {
     @Id
     @GeneratedValue
     private Integer id;
@@ -24,7 +24,7 @@ public class Messages {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rentals_id")
     @JsonBackReference
-    public Rentals rentals;
+    public Rental rental;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

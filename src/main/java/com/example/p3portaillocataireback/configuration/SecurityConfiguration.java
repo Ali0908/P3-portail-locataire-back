@@ -24,18 +24,20 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
-    // Liste des URL autorisées sans authentification
-//    private static final String[] WHITE_LIST_URL = {"/api/auth/register,"
-//    };
+    private static final String[] WHITE_LIST_URL = {"/api/auth/register",
+            "/api/auth/login",
+            "/api/rentals"
+    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/auth/register, /api/auth/login,")
+                        req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
                                 .requestMatchers("api/rentals/create").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                                .requestMatchers("api/rentals/update").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )

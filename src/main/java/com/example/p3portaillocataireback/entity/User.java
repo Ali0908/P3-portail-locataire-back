@@ -34,10 +34,10 @@ public class User implements UserDetails {
     private List<Token> tokens;
 
     @OneToMany(mappedBy = "user")
-    private List<Rentals> rentals;
+    private List<Rental> rentals;
 
     @OneToMany(mappedBy = "user")
-    private List<Messages> messages;
+    private List<Message> messages;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

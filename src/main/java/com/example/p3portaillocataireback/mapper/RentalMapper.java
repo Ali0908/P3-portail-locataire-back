@@ -1,15 +1,15 @@
 package com.example.p3portaillocataireback.mapper;
 
-import com.example.p3portaillocataireback.dto.requests.RentalsDto;
-import com.example.p3portaillocataireback.entity.Rentals;
-import com.example.p3portaillocataireback.dto.response.RentalsResponseDto;
+import com.example.p3portaillocataireback.dto.requests.RentalDto;
+import com.example.p3portaillocataireback.entity.Rental;
+import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class RentalsMapper {
-    public Rentals toRental(RentalsDto dto) {
-      var rental = new Rentals();
+public class RentalMapper {
+    public Rental toRental(RentalDto dto) {
+      var rental = new Rental();
         rental.setName(dto.getName());
         rental.setSurface(dto.getSurface());
         rental.setPrice(dto.getPrice());
@@ -19,8 +19,8 @@ public class RentalsMapper {
 
     }
 
-    public RentalsResponseDto toRentalsResponseDto(Rentals rental) {
-        return new RentalsResponseDto(
+    public RentalResponseDto toRentalsResponseDto(Rental rental) {
+        return new RentalResponseDto(
                 rental.getId(),
                 rental.getName(),
                 rental.getSurface(),
