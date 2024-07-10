@@ -1,8 +1,6 @@
 package com.example.p3portaillocataireback.services;
 
-import com.example.p3portaillocataireback.dto.requests.RegisterRequest;
 import com.example.p3portaillocataireback.dto.requests.RentalDto;
-import com.example.p3portaillocataireback.dto.response.AuthResponse;
 import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
 import com.example.p3portaillocataireback.mapper.RentalMapper;
 import com.example.p3portaillocataireback.repository.RentalRepository;
