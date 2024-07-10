@@ -1,17 +1,22 @@
 package com.example.p3portaillocataireback.controller.advice;
 
-import com.example.p3portaillocataireback.dto.requests.RegisterRequest;
 import com.example.p3portaillocataireback.exceptions.BadRequestException;
+import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-//@ExceptionHandler(BadRequestException.class);
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<String> handleBadRequestException(BadRequestException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
-//    public ResponseEntity<RegisterRequest> handleBadRequestException(BadRequestException e) {
-//        return ResponseEntity.badRequest().body(new RegisterRequest(e.getMessage()));
-//    }
+    @ExceptionHandler(UnauthorizedRequestException.class)
+    public ResponseEntity<String> handleUnauthorizedRequestException(BadRequestException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
 }

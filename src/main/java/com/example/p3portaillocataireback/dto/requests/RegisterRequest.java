@@ -15,7 +15,8 @@ import jakarta.validation.constraints.NotBlank;
 public class RegisterRequest {
     @NotBlank(message = "Name is required")
     private String name;
-    @Email(message = "Email is required")
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email is mandatory")
     private String email;
     @NotBlank(message = "Password is required")
     private String password;
