@@ -26,7 +26,8 @@ public class SecurityConfiguration {
     private final LogoutHandler logoutHandler;
     private static final String[] WHITE_LIST_URL = {"/api/auth/register",
             "/api/auth/login",
-            "/api/rentals"
+            "/api/rentals",
+            "/api/messages",
     };
 
     @Bean
@@ -36,8 +37,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers("api/rentals/create").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                                .requestMatchers("api/rentals/update").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+//                                .requestMatchers("api/rentals/create").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+//                                .requestMatchers("api/rentals/update").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )

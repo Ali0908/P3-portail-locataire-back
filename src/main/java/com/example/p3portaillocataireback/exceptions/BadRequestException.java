@@ -11,5 +11,4 @@ import java.util.List;
 @AllArgsConstructor
 public class BadRequestException extends RuntimeException{
     private String message;
-    private List<String> errors;
 }

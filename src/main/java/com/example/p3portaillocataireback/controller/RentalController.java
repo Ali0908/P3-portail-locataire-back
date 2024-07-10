@@ -16,21 +16,24 @@ public class RentalController {
     private final RentalServiceImpl rentalServiceImpl;
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     public List<RentalResponseDto> getAllRentals() {
         return rentalServiceImpl.getAllRentals();
     }
 
     @GetMapping("/{rental-id}")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     public RentalResponseDto getRentalById(@PathVariable("rental-id") Integer id) {
         return rentalServiceImpl.getRentalById(id);
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     public RentalResponseDto create(
             @RequestBody RentalDto rentaldto) {
         return rentalServiceImpl.create(rentaldto).get();
+    }
+    @PutMapping("/rental-id}")
+    public RentalResponseDto update(
+            @PathVariable("rental-id") Integer id,
+            @RequestBody RentalDto rentaldto) {
+        return rentalServiceImpl.update(id, rentaldto);
     }
 }

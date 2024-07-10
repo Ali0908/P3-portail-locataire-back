@@ -39,5 +39,13 @@ public class RentalServiceImpl {
                 .map(rentalMapper::toRentalsResponseDto)
                 .orElseThrow();
     }
-
+    public RentalResponseDto update (Integer id, RentalDto updateRentalDto) {
+        var existingRental = rentalRepository.findById(id).orElseThrow();
+        existingRental.setName(updateRentalDto.getName());
+        existingRental.setSurface(updateRentalDto.getSurface());
+        existingRental.setPrice(updateRentalDto.getPrice());
+        existingRental.setDescription(updateRentalDto.getDescription());
+        rentalRepository.save(existingRental);
+        return rentalMapper.toRentalsResponseDto(existingRental);
+    }
 }

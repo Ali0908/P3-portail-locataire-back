@@ -23,11 +23,11 @@ public class AuthController {
             @RequestBody @Validated RegisterRequest request, BindingResult result
 
     ) {
-//        if (result.hasErrors()) {
-//            throw new BadRequestException("Error");
+        if (result.hasErrors()) {
+            throw new BadRequestException("Error");
 //            Il faut que l'erreur contiennent le message
 //            Créer des exceptions personnalisées
-//        }
+        }
         return service.register(request).get();
     }
 
