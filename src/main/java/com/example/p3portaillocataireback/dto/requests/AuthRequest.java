@@ -1,6 +1,6 @@
 package com.example.p3portaillocataireback.dto.requests;
 
-import jakarta.validation.constraints.AssertFalse;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthRequest {
+    @Email(message = "Email is not valid")
+    @NotBlank(message = "error")
     private String email;
-    @NotBlank(message = "Password is required")
+    @NotBlank(message = "error")
     String password;
-    @NotBlank(message = "Username is required")
-    String username;
 }

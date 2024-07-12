@@ -1,5 +1,6 @@
 package com.example.p3portaillocataireback.controller.advice;
 
+import com.example.p3portaillocataireback.dto.response.AuthResponseFailed;
 import com.example.p3portaillocataireback.exceptions.BadRequestException;
 import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,10 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UnauthorizedRequestException.class)
-    public ResponseEntity<String> handleUnauthorizedRequestException(BadRequestException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<AuthResponseFailed> handleUnauthorizedRequestException(UnauthorizedRequestException e) {
+        AuthResponseFailed authResponse = AuthResponseFailed.builder()
+                .message(e.getMessage())
+                .build();
+        return new ResponseEntity<>(authResponse, HttpStatus.UNAUTHORIZED);
     }
 }
