@@ -29,10 +29,4 @@ public class RentalController {
             @RequestBody RentalDto rentaldto) {
         return rentalServiceImpl.create(rentaldto).get();
     }
-//    @PutMapping("/rental-id}")
-//    public RentalResponseDto update(
-//            @PathVariable("rental-id") Integer id,
-//            @RequestBody RentalDto rentaldto) {
-//        return rentalServiceImpl.update(id, rentaldto);
-//    }
 }
