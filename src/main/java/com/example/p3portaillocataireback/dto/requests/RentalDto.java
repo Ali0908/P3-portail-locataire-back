@@ -1,7 +1,10 @@
 package com.example.p3portaillocataireback.dto.requests;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+
+import java.sql.Timestamp;
 
 
 public record RentalDto(
@@ -19,7 +22,13 @@ public record RentalDto(
         String picture,
         @Getter
         @NotBlank(message = "Description is required")
-        String description
-
-) {
+        @Max(value = 255, message = "Description is too long")
+        String description,
+        @Getter
+        Timestamp created_at,
+        @Getter
+        Timestamp updated_at,
+        @Getter
+        Integer owner_id
+        ) {
 }

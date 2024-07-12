@@ -26,8 +26,10 @@ public class Rental {
     private String description;
     private Timestamp created_at;
     private Timestamp updated_at;
+    private String status = "created";
 
     @OneToMany(mappedBy = "rental")
+    // TODO :A rental can have only one message
     private List<Message> messages;
 
     @ManyToOne(fetch = FetchType.LAZY)

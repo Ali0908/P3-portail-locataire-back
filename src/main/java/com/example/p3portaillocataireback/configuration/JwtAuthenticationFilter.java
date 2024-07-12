@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final TokenRepository tokenRepository;
     private  final List<String> WHITE_LIST_URL = List.of("/api/auth/register",
             "/api/auth/login",
-            "/api/rentals/**",
+            "/api/rentals",
             "/api/messages");
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
     @Override

@@ -4,6 +4,7 @@ import com.example.p3portaillocataireback.dto.requests.RentalDto;
 import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
 import com.example.p3portaillocataireback.mapper.RentalMapper;
 import com.example.p3portaillocataireback.repository.RentalRepository;
+import com.example.p3portaillocataireback.services.interfaces.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class RentalServiceImpl {
+public class RentalServiceImpl implements RentalService {
     private final RentalMapper rentalMapper;
     private final RentalRepository rentalRepository;
 
@@ -26,7 +27,7 @@ public class RentalServiceImpl {
         rentalRepository.save(rental);
         return Optional.of(rentalMapper.toRentalsResponseDto(rental));
     }
-    public  List<RentalResponseDto> getAllRentals() {
+    public List<RentalResponseDto> getAllRentals() {
         return rentalRepository.findAll()
                 .stream()
                 .map(rentalMapper::toRentalsResponseDto)
