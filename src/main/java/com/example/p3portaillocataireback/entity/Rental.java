@@ -1,5 +1,6 @@
 package com.example.p3portaillocataireback.entity;
 
+import com.example.p3portaillocataireback.dto.response.Status;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,7 +27,8 @@ public class Rental {
     private String description;
     private Timestamp created_at;
     private Timestamp updated_at;
-    private String status = "created";
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @OneToMany(mappedBy = "rental")
     // TODO :A rental can have only one message

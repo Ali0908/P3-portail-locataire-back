@@ -1,6 +1,7 @@
 package com.example.p3portaillocataireback.mapper;
 
 import com.example.p3portaillocataireback.dto.requests.RentalDto;
+import com.example.p3portaillocataireback.dto.response.Status;
 import com.example.p3portaillocataireback.entity.Rental;
 import com.example.p3portaillocataireback.entity.User;
 import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
@@ -29,7 +30,7 @@ public class RentalMapper {
 
     public RentalResponseDto toRentalsResponseDto(Rental rental) {
         return new RentalResponseDto(
-                rental.getStatus()
+                Status.CREATED.getStatus()
         );
     }
 }
