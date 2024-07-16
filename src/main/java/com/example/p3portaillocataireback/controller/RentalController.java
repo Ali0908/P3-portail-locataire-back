@@ -1,6 +1,7 @@
 package com.example.p3portaillocataireback.controller;
 
 import com.example.p3portaillocataireback.dto.requests.RentalDto;
+import com.example.p3portaillocataireback.dto.response.RentalResponseCreatedDto;
 import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
 import com.example.p3portaillocataireback.entity.User;
 import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
@@ -28,9 +29,14 @@ public class RentalController {
         return rentalSrv.getAllRentals();
     }
 
+    @GetMapping("/{rental-id}")
+    public RentalResponseDto getRentalById(@PathVariable("rental-id") Integer id) {
+        return rentalSrv.getRentalById(id).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
+    }
+
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public RentalResponseDto create(
+    public RentalResponseCreatedDto create(
             @RequestParam("name") String name,
             @RequestParam("surface") Float surface,
             @RequestParam("price") Float price,

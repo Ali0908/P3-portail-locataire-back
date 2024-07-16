@@ -1,10 +1,11 @@
 package com.example.p3portaillocataireback.mapper;
 
 import com.example.p3portaillocataireback.dto.requests.RentalDto;
+import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
 import com.example.p3portaillocataireback.dto.response.Status;
 import com.example.p3portaillocataireback.entity.Rental;
 import com.example.p3portaillocataireback.entity.User;
-import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
+import com.example.p3portaillocataireback.dto.response.RentalResponseCreatedDto;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -28,9 +29,22 @@ public class RentalMapper {
         return rental;
     }
 
+    public RentalResponseCreatedDto toRentalsResponseCreatedDto(Rental rental) {
+        return new RentalResponseCreatedDto(
+                Status.CREATED.getStatus()
+        );
+    }
     public RentalResponseDto toRentalsResponseDto(Rental rental) {
         return new RentalResponseDto(
-                Status.CREATED.getStatus()
+                rental.getId(),
+                rental.getName(),
+                rental.getSurface(),
+                rental.getPrice(),
+                rental.getPicture(),
+                rental.getDescription(),
+                rental.getCreated_at(),
+                rental.getUpdated_at(),
+                rental.getUser().getId()
         );
     }
 }

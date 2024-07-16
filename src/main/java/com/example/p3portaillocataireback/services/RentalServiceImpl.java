@@ -1,6 +1,7 @@
 package com.example.p3portaillocataireback.services;
 
 import com.example.p3portaillocataireback.dto.requests.RentalDto;
+import com.example.p3portaillocataireback.dto.response.RentalResponseCreatedDto;
 import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
 import com.example.p3portaillocataireback.mapper.RentalMapper;
 import com.example.p3portaillocataireback.repository.RentalRepository;
@@ -22,10 +23,10 @@ public class RentalServiceImpl implements RentalService {
         this.rentalMapper = rentalMapper;
         this.rentalRepository = rentalRepository;
     }
-    public Optional<RentalResponseDto> create(RentalDto rentalDto) {
+    public Optional<RentalResponseCreatedDto> create(RentalDto rentalDto) {
         var rental = rentalMapper.toRental(rentalDto);
         rentalRepository.save(rental);
-        return Optional.of(rentalMapper.toRentalsResponseDto(rental));
+        return Optional.of(rentalMapper.toRentalsResponseCreatedDto(rental));
     }
     public List<RentalResponseDto> getAllRentals() {
         return rentalRepository.findAll()
@@ -33,18 +34,18 @@ public class RentalServiceImpl implements RentalService {
                 .map(rentalMapper::toRentalsResponseDto)
                 .collect(Collectors.toList());
     }
-    public RentalResponseDto getRentalById(Integer id) {
-        return rentalRepository.findById(id)
+    public Optional<RentalResponseDto> getRentalById(Integer id) {
+        return Optional.of((rentalRepository.findById(id)
                 .map(rentalMapper::toRentalsResponseDto)
-                .orElseThrow();
+                .orElseThrow()));
     }
-    public RentalResponseDto update (Integer id, RentalDto updateRentalDto) {
-        var existingRental = rentalRepository.findById(id).orElseThrow();
-        existingRental.setName(updateRentalDto.getName());
-        existingRental.setSurface(updateRentalDto.getSurface());
-        existingRental.setPrice(updateRentalDto.getPrice());
-        existingRental.setDescription(updateRentalDto.getDescription());
-        rentalRepository.save(existingRental);
-        return rentalMapper.toRentalsResponseDto(existingRental);
-    }
+//    public RentalResponseCreatedDto update (Integer id, RentalDto updateRentalDto) {
+//        var existingRental = rentalRepository.findById(id).orElseThrow();
+//        existingRental.setName(updateRentalDto.getName());
+//        existingRental.setSurface(updateRentalDto.getSurface());
+//        existingRental.setPrice(updateRentalDto.getPrice());
+//        existingRental.setDescription(updateRentalDto.getDescription());
+//        rentalRepository.save(existingRental);
+//        return rentalMapper.toRentalsResponseDto(existingRental);
+//    }
 }
