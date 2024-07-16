@@ -1,8 +1,10 @@
 package com.example.p3portaillocataireback.services;
 
 import com.example.p3portaillocataireback.dto.requests.RentalDto;
+import com.example.p3portaillocataireback.dto.requests.RentalUpdateDto;
 import com.example.p3portaillocataireback.dto.response.RentalResponseCreatedDto;
 import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
+import com.example.p3portaillocataireback.dto.response.RentalResponseUpdatedDto;
 import com.example.p3portaillocataireback.mapper.RentalMapper;
 import com.example.p3portaillocataireback.repository.RentalRepository;
 import com.example.p3portaillocataireback.services.interfaces.RentalService;
@@ -39,13 +41,13 @@ public class RentalServiceImpl implements RentalService {
                 .map(rentalMapper::toRentalsResponseDto)
                 .orElseThrow()));
     }
-//    public RentalResponseCreatedDto update (Integer id, RentalDto updateRentalDto) {
-//        var existingRental = rentalRepository.findById(id).orElseThrow();
-//        existingRental.setName(updateRentalDto.getName());
-//        existingRental.setSurface(updateRentalDto.getSurface());
-//        existingRental.setPrice(updateRentalDto.getPrice());
-//        existingRental.setDescription(updateRentalDto.getDescription());
-//        rentalRepository.save(existingRental);
-//        return rentalMapper.toRentalsResponseDto(existingRental);
-//    }
+    public Optional<RentalResponseUpdatedDto> update (Integer id, RentalUpdateDto updateRentalDto) {
+        var existingRental = rentalRepository.findById(id).orElseThrow();
+        existingRental.setName(updateRentalDto.getName());
+        existingRental.setSurface(updateRentalDto.getSurface());
+        existingRental.setPrice(updateRentalDto.getPrice());
+        existingRental.setDescription(updateRentalDto.getDescription());
+        rentalRepository.save(existingRental);
+        return Optional.of(rentalMapper.toRentalsResponseUpdatedDto(existingRental));
+    }
 }

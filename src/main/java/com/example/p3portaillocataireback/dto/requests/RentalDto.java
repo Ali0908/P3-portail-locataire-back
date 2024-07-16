@@ -18,7 +18,7 @@ public record RentalDto(
         @NotBlank(message = "Price is required")
         Float price,
         @Getter
-        @NotBlank(message = "Picture is required")
+@NotBlank(message = "Picture is required")
         String picture,
         @Getter
         @NotBlank(message = "Description is required")
