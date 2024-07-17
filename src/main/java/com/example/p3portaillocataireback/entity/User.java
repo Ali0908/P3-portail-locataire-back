@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 @Data
@@ -25,8 +25,8 @@ public class User implements UserDetails {
     private String name;
     private String email;
     private String password;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private LocalDate created_at;
+    private LocalDate updated_at;
     @Enumerated(EnumType.STRING)
     private Role role;
 

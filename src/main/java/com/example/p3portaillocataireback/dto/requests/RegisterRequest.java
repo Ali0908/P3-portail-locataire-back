@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.NotBlank;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -21,4 +23,6 @@ public class RegisterRequest {
     @NotBlank(message = "Password is required")
     private String password;
     private Role role;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 }

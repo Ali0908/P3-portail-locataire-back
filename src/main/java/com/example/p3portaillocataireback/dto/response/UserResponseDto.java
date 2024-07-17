@@ -1,12 +1,13 @@
 package com.example.p3portaillocataireback.dto.response;
 
-import java.sql.Timestamp;
+
+import java.time.LocalDate;
 
 public record UserResponseDto(
         Integer id,
         String name,
         String email,
-        Timestamp created_at,
-        Timestamp updated_at
+        LocalDate created_at,
+        LocalDate updated_at
 ) {
 }

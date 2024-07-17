@@ -17,6 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -29,6 +31,8 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
 
     public Optional<AuthResponse> register(RegisterRequest request) {
+
+        // Formatage des dates
         // Création d'un utilisateur
         var user = User.builder()
                 //  Conversion du nom d'utilisateur en minuscules
@@ -39,6 +43,8 @@ public class AuthServiceImpl implements AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 // Rôle par défaut
                 .role((Role.USER))
+                .created_at(LocalDate.now())
+                .updated_at(LocalDate.now())
                 .build();
         // Enregistrement de l'utilisateur en base de données
         var savedUser = repository.save(user);
