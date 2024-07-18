@@ -29,7 +29,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private  final List<String> WHITE_LIST_URL = List.of("/api/auth/register",
             "/api/auth/login",
             "/api/rentals",
-            "/api/messages",
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html");

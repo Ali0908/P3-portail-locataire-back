@@ -12,5 +12,5 @@ public interface MessageService {
      * @param messageDto {@link MessageDto}
      * @return {@link MessageResponseDto}
      */
-    public Optional<MessageResponseDto> create(MessageDto messageDto);
+     Optional<MessageResponseDto> create(MessageDto messageDto);
 }

@@ -9,6 +9,7 @@ public enum Status {
 
     CREATED("Rental created"),
     FAILED("failed"),
-    UPDATED("Rental updated");
+    UPDATED("Rental updated"),
+    SUCCESS("Message send with success");
     private final String status;
 }
