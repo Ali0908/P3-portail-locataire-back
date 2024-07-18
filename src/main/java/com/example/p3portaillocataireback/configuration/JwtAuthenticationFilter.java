@@ -1,5 +1,6 @@
 package com.example.p3portaillocataireback.configuration;
 
+import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
 import com.example.p3portaillocataireback.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,53 +21,43 @@ import java.io.IOException;
 import java.util.List;
 
 
+
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
     private final TokenRepository tokenRepository;
-    private  final List<String> WHITE_LIST_URL = List.of("/api/auth/register",
+    private final List<String> WHITE_LIST_URL = List.of("/api/auth/register",
             "/api/auth/login",
             "/api/rentals",
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html");
     private final AntPathMatcher pathMatcher = new AntPathMatcher();
+
     @Override
-    protected void doFilterInternal( @NonNull HttpServletRequest request,
-                                     @NonNull HttpServletResponse response,
-                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
 
-        if(isPublicUrl(request.getRequestURI())) {
+        if (isPublicUrl(request.getRequestURI())) {
             filterChain.doFilter(request, response);
         } else {
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                filterChain.doFilter(request, response);
-                return;
+                throw new UnauthorizedRequestException(" Authorization header is missing or invalid");
             }
-//            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-//                // Si non présent, passe à la suite
-//                throw new UnauthorizedRequestException("Missing or invalid Authorization header");
-//
-//            }
             jwt = authHeader.substring(7);
 
             try {
                 userEmail = jwtService.extractUsername(jwt);
             } catch (Exception e) {
-                System.err.println("Invalid JWT: " + e.getMessage());
-                filterChain.doFilter(request, response);
-                return;
+                throw new UnauthorizedRequestException(" User not found");
             }
-//            catch (Exception e) {
-//                System.err.println("Invalid JWT: " + e.getMessage());
-//                throw new UnauthorizedRequestException("Invalid JWT: " + e.getMessage());
-//            }
 
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
@@ -91,9 +82,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     }
 
-    private  Boolean isPublicUrl(String url) {
+    private Boolean isPublicUrl(String url) {
 
-        return WHITE_LIST_URL.stream().anyMatch(uri -> pathMatcher .match(uri, url));
+        return WHITE_LIST_URL.stream().anyMatch(uri -> pathMatcher.match(uri, url));
 
     }
 }
