@@ -1,12 +1,7 @@
 package com.example.p3portaillocataireback;
 
-import com.example.p3portaillocataireback.configuration.Role;
-import com.example.p3portaillocataireback.dto.requests.RegisterRequest;
-import com.example.p3portaillocataireback.services.interfaces.AuthService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 
 @SpringBootApplication

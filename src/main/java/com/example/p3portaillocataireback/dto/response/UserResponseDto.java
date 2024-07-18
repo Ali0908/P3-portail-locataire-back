@@ -1,6 +1,5 @@
 package com.example.p3portaillocataireback.dto.response;
 
-
 import java.time.LocalDate;
 
 public record UserResponseDto(

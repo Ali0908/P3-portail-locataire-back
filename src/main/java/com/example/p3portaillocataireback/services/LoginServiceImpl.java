@@ -1,10 +1,11 @@
 package com.example.p3portaillocataireback.services;
 
-import com.example.p3portaillocataireback.dto.requests.AuthRequest;
+import com.example.p3portaillocataireback.dto.requests.LoginRequest;
 import com.example.p3portaillocataireback.dto.requests.RegisterRequest;
-import com.example.p3portaillocataireback.dto.response.AuthResponse;
+import com.example.p3portaillocataireback.dto.response.LoginResponse;
 import com.example.p3portaillocataireback.configuration.JwtService;
-import com.example.p3portaillocataireback.services.interfaces.AuthService;
+import com.example.p3portaillocataireback.dto.response.UserResponseDto;
+import com.example.p3portaillocataireback.services.interfaces.LoginService;
 import com.example.p3portaillocataireback.entity.Token;
 import com.example.p3portaillocataireback.repository.TokenRepository;
 import com.example.p3portaillocataireback.configuration.TokenType;
@@ -14,6 +15,7 @@ import com.example.p3portaillocataireback.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +25,14 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl implements AuthService {
+public class LoginServiceImpl implements LoginService {
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public Optional<AuthResponse> register(RegisterRequest request) {
+    public Optional<LoginResponse> register(RegisterRequest request) {
 
         // Formatage des dates
         // Création d'un utilisateur
@@ -53,13 +55,13 @@ public class AuthServiceImpl implements AuthService {
         // Sauvegarde du jeton d'accès pour l'utilisateur (implémentation non fournie)
         saveUserToken(savedUser, jwtToken);
         // Construction de la réponse d'authentification
-        return Optional.of(AuthResponse.builder()
+        return Optional.of(LoginResponse.builder()
                 .token(jwtToken)
                 .build());
     }
 
 
-    public Optional<AuthResponse> authenticate(AuthRequest request) {
+    public Optional<LoginResponse> login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -71,9 +73,20 @@ public class AuthServiceImpl implements AuthService {
         var jwtToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
-        return Optional.of(AuthResponse.builder()
+        return Optional.of(LoginResponse.builder()
                 .token(jwtToken)
                 .build());
+    }
+    public Optional<UserResponseDto> authenticate() {
+        var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return Optional.of(new UserResponseDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getCreated_at(),
+                user.getUpdated_at()
+        ));
+
     }
 
     private void revokeAllUserTokens(User user) {

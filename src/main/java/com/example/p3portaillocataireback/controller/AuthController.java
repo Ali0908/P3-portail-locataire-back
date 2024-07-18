@@ -1,11 +1,12 @@
 package com.example.p3portaillocataireback.controller;
 
-import com.example.p3portaillocataireback.dto.requests.AuthRequest;
+import com.example.p3portaillocataireback.dto.requests.LoginRequest;
 import com.example.p3portaillocataireback.dto.requests.RegisterRequest;
-import com.example.p3portaillocataireback.dto.response.AuthResponse;
+import com.example.p3portaillocataireback.dto.response.LoginResponse;
+import com.example.p3portaillocataireback.dto.response.UserResponseDto;
 import com.example.p3portaillocataireback.exceptions.BadRequestException;
 import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
-import com.example.p3portaillocataireback.services.interfaces.AuthService;
+import com.example.p3portaillocataireback.services.interfaces.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -18,10 +19,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService service;
+    private final LoginService service;
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public AuthResponse register(@RequestBody @Validated RegisterRequest request, BindingResult result) {
+    public LoginResponse register(@RequestBody @Validated RegisterRequest request, BindingResult result) {
         if (result.hasErrors()) {
             String errorMessage = result.getAllErrors().stream()
                     .map(ObjectError::getDefaultMessage)
@@ -34,8 +35,8 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
-    public AuthResponse authenticate(
-            @RequestBody @Validated AuthRequest request, BindingResult result
+    public LoginResponse login(
+            @RequestBody @Validated LoginRequest request, BindingResult result
     ) {
         if (result.hasErrors()) {
             String errorMessage = result.getAllErrors().stream()
@@ -43,6 +44,12 @@ public class AuthController {
                     .collect(Collectors.joining(", "));
             throw new UnauthorizedRequestException(errorMessage);
         }
-        return service.authenticate(request).get();
+        return service.login(request).get();
     }
+
+    @GetMapping("/me")
+    public UserResponseDto authenticate() {
+        return service.authenticate().get();
+    }
+
 }

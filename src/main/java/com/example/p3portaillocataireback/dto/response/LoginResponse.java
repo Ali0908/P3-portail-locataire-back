@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponseFailed {
-    @JsonProperty("message")
-    private String message;
+public class LoginResponse {
+    @JsonProperty("token")
+    private String token;
 }
