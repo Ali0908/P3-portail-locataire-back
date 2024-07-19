@@ -9,7 +9,6 @@ import com.example.p3portaillocataireback.services.interfaces.LoginService;
 import com.example.p3portaillocataireback.entity.Token;
 import com.example.p3portaillocataireback.repository.TokenRepository;
 import com.example.p3portaillocataireback.configuration.TokenType;
-import com.example.p3portaillocataireback.configuration.Role;
 import com.example.p3portaillocataireback.entity.User;
 import com.example.p3portaillocataireback.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +42,6 @@ public class LoginServiceImpl implements LoginService {
                 .email(request.getEmail())
                 // Encodage du mot de passe
                 .password(passwordEncoder.encode(request.getPassword()))
-                // Rôle par défaut
-                .role((Role.USER))
                 .created_at(LocalDate.now())
                 .updated_at(LocalDate.now())
                 .build();

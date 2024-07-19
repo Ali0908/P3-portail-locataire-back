@@ -1,6 +1,5 @@
 package com.example.p3portaillocataireback.dto.requests;
 
-import com.example.p3portaillocataireback.configuration.Role;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +21,6 @@ public class RegisterRequest {
     private String email;
     @NotBlank(message = "Password is required")
     private String password;
-    private Role role;
     private LocalDate createdAt;
     private LocalDate updatedAt;
 }

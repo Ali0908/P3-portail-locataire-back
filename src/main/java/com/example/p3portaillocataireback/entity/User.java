@@ -1,6 +1,5 @@
 package com.example.p3portaillocataireback.entity;
 
-import com.example.p3portaillocataireback.configuration.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 @Data
 @Builder
@@ -27,8 +27,6 @@ public class User implements UserDetails {
     private String password;
     private LocalDate created_at;
     private LocalDate updated_at;
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
@@ -41,7 +39,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role.getAuthorities();
+        // Retourne une liste vide ou des autorités statiques si nécessaire
+        return Collections.emptyList();
     }
     @Override
     public String getPassword() {
