@@ -2,6 +2,7 @@ package com.example.p3portaillocataireback.configuration;
 
 import com.example.p3portaillocataireback.repository.TokenRepository;
 import com.example.p3portaillocataireback.repository.UserRepository;
+import com.example.p3portaillocataireback.services.JwtServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +29,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfiguration {
-    private final JwtService jwtService;
+    private final JwtServiceImpl jwtServiceImpl;
     private final TokenRepository tokenRepository;
     private final UserRepository repository;
 
@@ -78,7 +79,7 @@ public class SecurityConfiguration {
     }
     @Bean
     public JwtAuthenticationFilter jwtAuthFilter() {
-        return new JwtAuthenticationFilter(jwtService, userDetailsService(), tokenRepository);
+        return new JwtAuthenticationFilter(jwtServiceImpl, userDetailsService(), tokenRepository);
     }
 }
 

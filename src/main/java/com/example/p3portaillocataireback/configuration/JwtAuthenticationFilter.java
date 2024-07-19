@@ -1,6 +1,7 @@
 package com.example.p3portaillocataireback.configuration;
 
 import com.example.p3portaillocataireback.repository.TokenRepository;
+import com.example.p3portaillocataireback.services.JwtServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +26,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtService jwtService;
+    private final JwtServiceImpl jwtServiceImpl;
     private final UserDetailsService userDetailsService;
     private final TokenRepository tokenRepository;
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
@@ -53,14 +54,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
                 jwt = authHeader.substring(7);
 
-                final String userEmail = jwtService.extractUsername(jwt);
+                final String userEmail = jwtServiceImpl.extractUsername(jwt);
 
                 if (StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
                     var isTokenValid = tokenRepository.findByToken(jwt)
                             .map(t -> !t.isExpired() && !t.isRevoked())
                             .orElse(false);
-                    if (jwtService.isTokenValid(jwt) && isTokenValid) {
+                    if (jwtServiceImpl.isTokenValid(jwt) && isTokenValid) {
                         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                                 userDetails,
                                 null,

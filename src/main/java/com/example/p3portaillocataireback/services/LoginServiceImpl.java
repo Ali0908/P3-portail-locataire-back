@@ -3,7 +3,6 @@ package com.example.p3portaillocataireback.services;
 import com.example.p3portaillocataireback.dto.requests.LoginRequest;
 import com.example.p3portaillocataireback.dto.requests.RegisterRequest;
 import com.example.p3portaillocataireback.dto.response.LoginResponse;
-import com.example.p3portaillocataireback.configuration.JwtService;
 import com.example.p3portaillocataireback.dto.response.UserResponseDto;
 import com.example.p3portaillocataireback.services.interfaces.LoginService;
 import com.example.p3portaillocataireback.entity.Token;
@@ -29,7 +28,7 @@ public class LoginServiceImpl implements LoginService {
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final JwtServiceImpl jwtServiceImpl;
     private final AuthenticationManager authenticationManager;
 
     public Optional<LoginResponse> register(RegisterRequest request) {
@@ -49,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
         // Enregistrement de l'utilisateur en base de données
         var savedUser = repository.save(user);
         // Génération du jeton d'accès
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtServiceImpl.generateToken(user);
         // Sauvegarde du jeton d'accès pour l'utilisateur (implémentation non fournie)
         saveUserToken(savedUser, jwtToken);
         // Construction de la réponse d'authentification
@@ -68,7 +67,7 @@ public class LoginServiceImpl implements LoginService {
         );
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtServiceImpl.generateToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
         return Optional.of(LoginResponse.builder()

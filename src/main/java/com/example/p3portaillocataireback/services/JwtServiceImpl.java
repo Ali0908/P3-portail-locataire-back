@@ -1,5 +1,6 @@
-package com.example.p3portaillocataireback.configuration;
+package com.example.p3portaillocataireback.services;
 
+import com.example.p3portaillocataireback.services.interfaces.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,7 +17,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtServiceImpl implements JwtService {
 	@Value("${application.security.jwt.secret-key}")
 	private String secretKey;
 	@Value("${application.security.jwt.expiration}")
