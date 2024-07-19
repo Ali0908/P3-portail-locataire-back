@@ -23,7 +23,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
-
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter implements JwtAuthenticationFilterInterface {
@@ -56,7 +55,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements Jwt
         } else {
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 logger.warn("Authorization header is missing or invalid");
-                throw new UnauthorizedRequestException("Authorization header is missing or invalid");            }
+                throw new UnauthorizedRequestException("Authorization header is missing or invalid");
+            }
             jwt = authHeader.substring(7);
 
             try {
@@ -85,13 +85,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements Jwt
             }
             filterChain.doFilter(request, response);
         }
-
-
     }
 
     private Boolean isPublicUrl(String url) {
-
         return WHITE_LIST_URL.stream().anyMatch(uri -> pathMatcher.match(uri, url));
-
     }
 }
