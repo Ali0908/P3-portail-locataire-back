@@ -1,13 +1,12 @@
 package com.example.p3portaillocataireback.configuration;
 
-import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
 import com.example.p3portaillocataireback.repository.TokenRepository;
-import com.example.p3portaillocataireback.services.interfaces.JwtAuthenticationFilterInterface;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
@@ -25,14 +24,13 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter implements JwtAuthenticationFilterInterface {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
     private final TokenRepository tokenRepository;
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     private final List<String> WHITE_LIST_URL = List.of("/api/auth/register",
             "/api/auth/login",
-            "/api/rentals",
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html");
@@ -45,7 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements Jwt
 
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String userEmail;
 
         logger.info("Processing request to URL: {}", request.getRequestURI());
 
@@ -53,36 +50,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements Jwt
             logger.info("Public URL accessed: {}", request.getRequestURI());
             filterChain.doFilter(request, response);
         } else {
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                logger.warn("Authorization header is missing or invalid");
-                throw new UnauthorizedRequestException("Authorization header is missing or invalid");
-            }
-            jwt = authHeader.substring(7);
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                jwt = authHeader.substring(7);
 
-            try {
-                userEmail = jwtService.extractUsername(jwt);
-            } catch (Exception e) {
-                logger.error("Invalid JWT: {}", e.getMessage());
-                throw new UnauthorizedRequestException("User not found");
-            }
+                final String userEmail = jwtService.extractUsername(jwt);
 
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-                var isTokenValid = tokenRepository.findByToken(jwt)
-                        .map(t -> !t.isExpired() && !t.isRevoked())
-                        .orElse(false);
-                if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
-                    authToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request)
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                if (StringUtils.isNotEmpty(userEmail) && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+                    var isTokenValid = tokenRepository.findByToken(jwt)
+                            .map(t -> !t.isExpired() && !t.isRevoked())
+                            .orElse(false);
+                    if (jwtService.isTokenValid(jwt) && isTokenValid) {
+                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
+                        authToken.setDetails(
+                                new WebAuthenticationDetailsSource().buildDetails(request)
+                        );
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                    }
                 }
             }
+
             filterChain.doFilter(request, response);
         }
     }

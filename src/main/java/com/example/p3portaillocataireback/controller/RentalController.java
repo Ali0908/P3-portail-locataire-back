@@ -36,7 +36,7 @@ public class RentalController {
         return rentalSrv.getRentalById(id).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RentalResponseCreatedDto create(
             @RequestParam("name") String name,

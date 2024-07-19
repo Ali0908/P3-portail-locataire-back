@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -66,7 +67,7 @@ public class LoginServiceImpl implements LoginService {
                 )
         );
         var user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         var jwtToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
@@ -74,6 +75,7 @@ public class LoginServiceImpl implements LoginService {
                 .token(jwtToken)
                 .build());
     }
+
     public Optional<UserResponseDto> authenticate() {
         var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return Optional.of(new UserResponseDto(

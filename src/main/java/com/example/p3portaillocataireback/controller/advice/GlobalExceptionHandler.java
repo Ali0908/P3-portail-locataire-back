@@ -5,15 +5,22 @@ import com.example.p3portaillocataireback.exceptions.BadRequestException;
 import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.HashMap;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<String> handleBadRequestException(BadRequestException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> handleBadRequestException(BadRequestException e) {
+        return new ResponseEntity<>(new HashMap<>(), HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<?> handleUsernameNotFoundException(UnauthorizedRequestException e) {
+        return new ResponseEntity<>(new HashMap<>(), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(UnauthorizedRequestException.class)
