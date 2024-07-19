@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class MessageMapper {
     public Message toMessage(MessageDto messageDto) {
         var message = new Message();
-        message.setMessage(messageDto.getMessages());
+        message.setMessage(messageDto.getMessage());
         var rental = new Rental();
         rental.setId(messageDto.getRental_id());
         message.setRental(rental);
