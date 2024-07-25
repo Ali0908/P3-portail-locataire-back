@@ -9,8 +9,6 @@ import com.example.p3portaillocataireback.entity.User;
 import com.example.p3portaillocataireback.dto.response.RentalResponseCreatedDto;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 
 
 @Service
@@ -22,8 +20,8 @@ public class RentalMapper {
         rental.setPrice(dto.getPrice());
         rental.setPicture(dto.getPicture());
         rental.setDescription(dto.getDescription());
-        rental.setCreated_at(Timestamp.from(Instant.now()));
-        rental.setUpdated_at(Timestamp.from(Instant.now()));
+        rental.setCreated_at(dto.getCreated_at());
+        rental.setUpdated_at(dto.getUpdated_at());
         var user = new User();
         user.setId(dto.getOwner_id());
         rental.setUser(user);

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @Setter
@@ -25,8 +24,8 @@ public class Rental {
     private Float price;
     private String picture;
     private String description;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private String created_at;
+    private String updated_at;
     @Enumerated(EnumType.STRING)
     private Status status;
 

@@ -16,8 +16,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -49,8 +50,10 @@ public class RentalController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Integer owner_id = ((User) userDetails).getId();
 
-        Timestamp created_at = Timestamp.from(Instant.now());
-        Timestamp updated_at = Timestamp.from(Instant.now());
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter  formattedDate= DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String created_at = date.format(formattedDate);
+        String updated_at = date.format(formattedDate);
         RentalDto rentalDto = new RentalDto(name, surface, price, picture.getOriginalFilename(), description, created_at, updated_at, owner_id);
 
         return rentalSrv.create(rentalDto).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
@@ -71,8 +74,10 @@ public class RentalController {
 
         RentalResponseDto rental = rentalSrv.getRentalById(id).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
 
-        Timestamp created_at = rental.getCreated_at();
-        Timestamp updated_at = Timestamp.from(Instant.now());
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter  formattedDate= DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String created_at = String.valueOf(rental.getCreated_at());
+        String updated_at = date.format(formattedDate);
 
         RentalUpdateDto rentalDto = new RentalUpdateDto(name, surface, price, description, created_at, updated_at, owner_id);
         return rentalSrv.update(id, rentalDto).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
