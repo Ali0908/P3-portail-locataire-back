@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -32,26 +33,19 @@ public class LoginServiceImpl implements LoginService {
     private final AuthenticationManager authenticationManager;
 
     public Optional<LoginResponse> register(RegisterRequest request) {
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formattedDate = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 
-        // Formatage des dates
-        // Création d'un utilisateur
         var user = User.builder()
-                //  Conversion du nom d'utilisateur en minuscules
                 .name(request.getName())
-                // Conversion de l'email en minuscules
                 .email(request.getEmail())
-                // Encodage du mot de passe
                 .password(passwordEncoder.encode(request.getPassword()))
-                .created_at(LocalDate.now())
-                .updated_at(LocalDate.now())
+                .created_at(date.format(formattedDate))
+                .updated_at(date.format(formattedDate))
                 .build();
-        // Enregistrement de l'utilisateur en base de données
         var savedUser = repository.save(user);
-        // Génération du jeton d'accès
         var jwtToken = jwtServiceImpl.generateToken(user);
-        // Sauvegarde du jeton d'accès pour l'utilisateur (implémentation non fournie)
         saveUserToken(savedUser, jwtToken);
-        // Construction de la réponse d'authentification
         return Optional.of(LoginResponse.builder()
                 .token(jwtToken)
                 .build());
