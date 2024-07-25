@@ -40,11 +40,11 @@ public class RentalController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RentalResponseCreatedDto create(
-            @RequestParam("name") String name,
-            @RequestParam("surface") Float surface,
-            @RequestParam("price") Float price,
-            @RequestParam("picture") MultipartFile picture,
-            @RequestParam("description") String description) {
+            @ModelAttribute("name") String name,
+            @ModelAttribute("surface") Float surface,
+            @ModelAttribute("price") Float price,
+            @ModelAttribute("picture") MultipartFile picture,
+            @ModelAttribute("description") String description) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -63,10 +63,10 @@ public class RentalController {
     @ResponseStatus(HttpStatus.CREATED)
     public RentalResponseUpdatedDto update(
             @PathVariable("rental-id") Integer id,
-            @RequestParam("name") String name,
-            @RequestParam("surface") Float surface,
-            @RequestParam("price") Float price,
-            @RequestParam("description") String description) {
+            @ModelAttribute("name") String name,
+            @ModelAttribute("surface") Float surface,
+            @ModelAttribute("price") Float price,
+            @ModelAttribute("description") String description, @PathVariable("rental-id") String parameter) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
