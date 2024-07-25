@@ -51,7 +51,7 @@ public class RentalController {
         Integer owner_id = ((User) userDetails).getId();
 
         LocalDate date = LocalDate.now();
-        DateTimeFormatter  formattedDate= DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter formattedDate = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         String created_at = date.format(formattedDate);
         String updated_at = date.format(formattedDate);
         RentalDto rentalDto = new RentalDto(name, surface, price, picture.getOriginalFilename(), description, created_at, updated_at, owner_id);
@@ -75,7 +75,7 @@ public class RentalController {
         RentalResponseDto rental = rentalSrv.getRentalById(id).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
 
         LocalDate date = LocalDate.now();
-        DateTimeFormatter  formattedDate= DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter formattedDate = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         String created_at = String.valueOf(rental.getCreated_at());
         String updated_at = date.format(formattedDate);
 
