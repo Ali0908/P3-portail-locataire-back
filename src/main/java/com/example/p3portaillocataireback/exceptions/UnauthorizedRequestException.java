@@ -5,5 +5,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UnauthorizedRequestException extends RuntimeException{
-    private final String message;
+    public UnauthorizedRequestException(String message) {
+        super(message);
+    }
 }
