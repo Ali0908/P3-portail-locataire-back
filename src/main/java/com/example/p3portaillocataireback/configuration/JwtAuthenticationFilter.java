@@ -30,8 +30,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final TokenRepository tokenRepository;
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
-    private final List<String> WHITE_LIST_URL = List.of("/auth/login",
-            "/auth/register",
+    private final List<String> WHITE_LIST_URL = List.of("/api/auth/login",
+            "/api/auth/register",
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html");

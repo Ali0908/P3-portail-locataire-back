@@ -3,6 +3,7 @@ package com.example.p3portaillocataireback.controller;
 import com.example.p3portaillocataireback.dto.requests.RentalDto;
 import com.example.p3portaillocataireback.dto.requests.RentalUpdateDto;
 import com.example.p3portaillocataireback.dto.response.MessageResponseDto;
+import com.example.p3portaillocataireback.dto.response.RentalListResponseDto;
 import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
 import com.example.p3portaillocataireback.entity.User;
 import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
@@ -31,8 +32,9 @@ public class RentalController {
 
     @GetMapping
     @SecurityRequirement(name = "bearerAuth")
-    public List<RentalResponseDto> getAllRentals() {
-        return rentalSrv.getAllRentals();
+    public RentalListResponseDto getAllRentals() {
+        List<RentalResponseDto> rentals = rentalSrv.getAllRentals();
+        return  new RentalListResponseDto(rentals);
     }
 
     @GetMapping("/{rental-id}")
