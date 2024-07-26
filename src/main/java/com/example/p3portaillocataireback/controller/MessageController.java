@@ -12,6 +12,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,7 +24,7 @@ public class MessageController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @SecurityRequirement(name = "bearerAuth")
-    public MessageResponseDto create(
+    public Optional<MessageResponseDto> create(
             @RequestBody @Validated MessageDto messageDto, BindingResult result) {
         if (result.hasErrors()) {
             String errorMessage = result.getAllErrors().stream()
@@ -31,6 +32,6 @@ public class MessageController {
                     .collect(Collectors.joining(", "));
             throw new BadRequestException(errorMessage);
         }
-        return messageSrv.create(messageDto).get();
+        return messageSrv.create(messageDto);
     }
 }

@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rentals")
@@ -35,14 +36,14 @@ public class RentalController {
 
     @GetMapping("/{rental-id}")
     @SecurityRequirement(name = "bearerAuth")
-    public RentalResponseDto getRentalById(@PathVariable("rental-id") Integer id) {
-        return rentalSrv.getRentalById(id).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
+    public Optional<RentalResponseDto> getRentalById(@PathVariable("rental-id") Integer id) {
+        return rentalSrv.getRentalById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @SecurityRequirement(name = "bearerAuth")
-    public MessageResponseDto create(
+    public Optional<MessageResponseDto> create(
             @ModelAttribute("name") String name,
             @ModelAttribute("surface") Float surface,
             @ModelAttribute("price") Float price,
@@ -59,13 +60,13 @@ public class RentalController {
         String updated_at = date.format(formattedDate);
         RentalDto rentalDto = new RentalDto(name, surface, price, picture.getOriginalFilename(), description, created_at, updated_at, owner_id);
 
-        return rentalSrv.create(rentalDto).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
+        return rentalSrv.create(rentalDto);
     }
 
     @PutMapping("/{rental-id}")
     @ResponseStatus(HttpStatus.CREATED)
     @SecurityRequirement(name = "bearerAuth")
-    public MessageResponseDto update(
+    public Optional<MessageResponseDto> update(
             @PathVariable("rental-id") Integer id,
             @ModelAttribute("name") String name,
             @ModelAttribute("surface") Float surface,
@@ -84,6 +85,6 @@ public class RentalController {
         String updated_at = date.format(formattedDate);
 
         RentalUpdateDto rentalDto = new RentalUpdateDto(name, surface, price, description, created_at, updated_at, owner_id);
-        return rentalSrv.update(id, rentalDto).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
+        return rentalSrv.update(id, rentalDto);
     }
 }

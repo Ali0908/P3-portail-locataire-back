@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.ObjectError;
+
+import java.util.Optional;
 import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/auth")
@@ -23,21 +25,21 @@ public class AuthController {
     private final LoginService service;
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public LoginResponse register(@RequestBody @Validated RegisterRequest request, BindingResult result) {
+    public Optional<LoginResponse> register(@RequestBody @Validated RegisterRequest request, BindingResult result) {
         if (result.hasErrors()) {
             String errorMessage = result.getAllErrors().stream()
                     .map(ObjectError::getDefaultMessage)
                     .collect(Collectors.joining(", "));
             throw new BadRequestException(errorMessage);
         }
-        return service.register(request).get();
+        return service.register(request);
     }
 
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
     @CrossOrigin(origins = "http://localhost:3001")
-    public LoginResponse login(
+    public Optional<LoginResponse> login(
             @RequestBody @Validated LoginRequest request, BindingResult result
     ) {
         if (result.hasErrors()) {
@@ -46,13 +48,13 @@ public class AuthController {
                     .collect(Collectors.joining(", "));
             throw new UnauthorizedRequestException(errorMessage);
         }
-        return service.login(request).get();
+        return service.login(request);
     }
 
     @GetMapping("/me")
     @SecurityRequirement(name = "bearerAuth")
-    public UserResponseDto authenticate() {
-        return service.authenticate().get();
+    public Optional<UserResponseDto> authenticate() {
+        return service.authenticate();
     }
 
 }

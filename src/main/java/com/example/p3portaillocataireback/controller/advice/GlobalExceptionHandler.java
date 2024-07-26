@@ -15,11 +15,11 @@ import java.util.HashMap;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<?> handleBadRequestException(BadRequestException e) {
+    public ResponseEntity<?> handleBadRequestException() {
         return new ResponseEntity<>(new HashMap<>(), HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<?> handleUsernameNotFoundException(UnauthorizedRequestException e) {
+    public ResponseEntity<?> handleUsernameNotFoundException() {
         return new ResponseEntity<>(new HashMap<>(), HttpStatus.UNAUTHORIZED);
     }
 
