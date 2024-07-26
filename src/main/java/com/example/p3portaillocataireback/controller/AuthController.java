@@ -15,11 +15,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.ObjectError;
 
-import java.security.Principal;
 import java.util.Optional;
 import java.util.stream.Collectors;
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -54,8 +53,7 @@ public class AuthController {
 
     @GetMapping("/me")
     @SecurityRequirement(name = "bearerAuth")
-    public Optional<UserResponseDto> authenticate(Principal user) {
-        System.out.println(user);
+    public Optional<UserResponseDto> authenticate() {
         return service.authenticate();
     }
 
