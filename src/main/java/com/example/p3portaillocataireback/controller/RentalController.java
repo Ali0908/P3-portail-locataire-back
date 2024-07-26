@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -77,8 +78,12 @@ public class RentalController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Integer owner_id = ((User) userDetails).getId();
 
-        RentalResponseDto rental = rentalSrv.getRentalById(id).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
+        // Vérifier si c'est le même que celui de loaderUserName que owner_id
 
+        RentalResponseDto rental = rentalSrv.getRentalById(id).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
+        if(!Objects.equals(owner_id, rental.getOwner_id())) {
+            throw new UnauthorizedRequestException("Unauthorized request");
+        }
         LocalDate date = LocalDate.now();
         DateTimeFormatter formattedDate = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         String created_at = String.valueOf(rental.getCreated_at());

@@ -70,7 +70,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     public Optional<UserResponseDto> authenticate() {
-        var user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return Optional.of(new UserResponseDto(
                 user.getId(),
                 user.getName(),

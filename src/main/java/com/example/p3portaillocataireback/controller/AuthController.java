@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.ObjectError;
 
+import java.security.Principal;
 import java.util.Optional;
 import java.util.stream.Collectors;
 @RestController
@@ -53,7 +54,8 @@ public class AuthController {
 
     @GetMapping("/me")
     @SecurityRequirement(name = "bearerAuth")
-    public Optional<UserResponseDto> authenticate() {
+    public Optional<UserResponseDto> authenticate(Principal user) {
+        System.out.println(user);
         return service.authenticate();
     }
 
