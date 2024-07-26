@@ -2,9 +2,8 @@ package com.example.p3portaillocataireback.controller;
 
 import com.example.p3portaillocataireback.dto.requests.RentalDto;
 import com.example.p3portaillocataireback.dto.requests.RentalUpdateDto;
-import com.example.p3portaillocataireback.dto.response.RentalResponseCreatedDto;
+import com.example.p3portaillocataireback.dto.response.MessageResponseDto;
 import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
-import com.example.p3portaillocataireback.dto.response.RentalResponseUpdatedDto;
 import com.example.p3portaillocataireback.entity.User;
 import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
 import com.example.p3portaillocataireback.services.interfaces.RentalService;
@@ -43,7 +42,7 @@ public class RentalController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @SecurityRequirement(name = "bearerAuth")
-    public RentalResponseCreatedDto create(
+    public MessageResponseDto create(
             @ModelAttribute("name") String name,
             @ModelAttribute("surface") Float surface,
             @ModelAttribute("price") Float price,
@@ -66,12 +65,12 @@ public class RentalController {
     @PutMapping("/{rental-id}")
     @ResponseStatus(HttpStatus.CREATED)
     @SecurityRequirement(name = "bearerAuth")
-    public RentalResponseUpdatedDto update(
+    public MessageResponseDto update(
             @PathVariable("rental-id") Integer id,
             @ModelAttribute("name") String name,
             @ModelAttribute("surface") Float surface,
             @ModelAttribute("price") Float price,
-            @ModelAttribute("description") String description, @PathVariable("rental-id") String parameter) {
+            @ModelAttribute("description") String description) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
