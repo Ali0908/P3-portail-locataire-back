@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/rentals")
+@RequestMapping("/rentals")
 @RequiredArgsConstructor
 public class RentalController {
     private final RentalService rentalSrv;

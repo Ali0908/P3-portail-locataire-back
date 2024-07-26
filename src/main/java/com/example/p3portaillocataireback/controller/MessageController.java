@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/messages")
+@RequestMapping("/messages")
 @RequiredArgsConstructor
 public class MessageController {
     private final MessageService messageSrv;
