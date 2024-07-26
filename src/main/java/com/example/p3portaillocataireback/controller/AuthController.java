@@ -7,6 +7,7 @@ import com.example.p3portaillocataireback.dto.response.UserResponseDto;
 import com.example.p3portaillocataireback.exceptions.BadRequestException;
 import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
 import com.example.p3portaillocataireback.services.interfaces.LoginService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -35,6 +36,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
+    @CrossOrigin(origins = "http://localhost:3001")
     public LoginResponse login(
             @RequestBody @Validated LoginRequest request, BindingResult result
     ) {
@@ -48,6 +50,7 @@ public class AuthController {
     }
 
     @GetMapping("/me")
+    @SecurityRequirement(name = "bearerAuth")
     public UserResponseDto authenticate() {
         return service.authenticate().get();
     }

@@ -8,6 +8,7 @@ import com.example.p3portaillocataireback.dto.response.RentalResponseUpdatedDto;
 import com.example.p3portaillocataireback.entity.User;
 import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
 import com.example.p3portaillocataireback.services.interfaces.RentalService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -28,17 +29,20 @@ public class RentalController {
     private final RentalService rentalSrv;
 
     @GetMapping
+    @SecurityRequirement(name = "bearerAuth")
     public List<RentalResponseDto> getAllRentals() {
         return rentalSrv.getAllRentals();
     }
 
     @GetMapping("/{rental-id}")
+    @SecurityRequirement(name = "bearerAuth")
     public RentalResponseDto getRentalById(@PathVariable("rental-id") Integer id) {
         return rentalSrv.getRentalById(id).orElseThrow(() -> new UnauthorizedRequestException("Unauthorized request"));
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @SecurityRequirement(name = "bearerAuth")
     public RentalResponseCreatedDto create(
             @ModelAttribute("name") String name,
             @ModelAttribute("surface") Float surface,
@@ -61,6 +65,7 @@ public class RentalController {
 
     @PutMapping("/{rental-id}")
     @ResponseStatus(HttpStatus.CREATED)
+    @SecurityRequirement(name = "bearerAuth")
     public RentalResponseUpdatedDto update(
             @PathVariable("rental-id") Integer id,
             @ModelAttribute("name") String name,

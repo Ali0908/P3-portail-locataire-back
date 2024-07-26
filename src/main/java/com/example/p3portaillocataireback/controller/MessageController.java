@@ -4,6 +4,7 @@ import com.example.p3portaillocataireback.dto.requests.MessageDto;
 import com.example.p3portaillocataireback.dto.response.MessageResponseDto;
 import com.example.p3portaillocataireback.exceptions.BadRequestException;
 import com.example.p3portaillocataireback.services.interfaces.MessageService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ public class MessageController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @SecurityRequirement(name = "bearerAuth")
     public MessageResponseDto create(
             @RequestBody @Validated MessageDto messageDto, BindingResult result) {
         if (result.hasErrors()) {
