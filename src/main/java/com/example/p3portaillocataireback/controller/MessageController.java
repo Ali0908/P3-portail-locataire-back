@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/messages")
+@RequestMapping("/api/messages")
 @RequiredArgsConstructor
 public class MessageController {
     private final MessageService messageSrv;
