@@ -8,6 +8,9 @@ import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
 import com.example.p3portaillocataireback.entity.User;
 import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
 import com.example.p3portaillocataireback.services.interfaces.RentalService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,6 +49,10 @@ public class RentalController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @SecurityRequirement(name = "bearerAuth")
+    @Operation(summary = "Create rental", description = "Create a new rental with a picture.")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            content = @Content(mediaType = "multipart/form-data",
+                    schema = @Schema(implementation = RentalDto.class)))
     public Optional<MessageResponseDto> create(
             @ModelAttribute("name") String name,
             @ModelAttribute("surface") Float surface,
