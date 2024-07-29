@@ -83,5 +83,5 @@ The application will be running at http://localhost:3001.
 ### API Documentation
 
 The URL to access the Swagger API documentation is:
-http://localhost:3001/swagger-ui.html
+http://localhost:3001/swagger-ui/index.html
 

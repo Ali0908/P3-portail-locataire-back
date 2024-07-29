@@ -57,11 +57,9 @@ public class RentalController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Integer owner_id = ((User) userDetails).getId();
 
-        LocalDate date = LocalDate.now();
-        DateTimeFormatter formattedDate = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        String created_at = date.format(formattedDate);
-        String updated_at = date.format(formattedDate);
-        RentalDto rentalDto = new RentalDto(name, surface, price, picture.getOriginalFilename(), description, created_at, updated_at, owner_id);
+        LocalDate created_at = LocalDate.now();
+        LocalDate updated_at = LocalDate.now();
+        RentalDto rentalDto = new RentalDto(name, surface, price, picture, description, created_at, updated_at, owner_id);
 
         return rentalSrv.create(rentalDto);
     }

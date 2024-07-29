@@ -3,6 +3,9 @@ package com.example.p3portaillocataireback.dto.requests;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
 
 
 public record RentalDto(
@@ -16,16 +19,15 @@ public record RentalDto(
         @NotBlank(message = "Price is required")
         Float price,
         @Getter
-        @NotBlank(message = "Picture is required")
-        String picture,
+        MultipartFile picture,
         @Getter
         @NotBlank(message = "Description is required")
         @Max(value = 255, message = "Description is too long")
         String description,
         @Getter
-        String created_at,
+        LocalDate created_at,
         @Getter
-        String updated_at,
+        LocalDate updated_at,
         @Getter
         Integer owner_id
 ) {

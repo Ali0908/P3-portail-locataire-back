@@ -8,6 +8,7 @@ import com.example.p3portaillocataireback.entity.Rental;
 import com.example.p3portaillocataireback.entity.User;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 
 
 @Service
@@ -17,7 +18,7 @@ public class RentalMapper {
         rental.setName(dto.getName());
         rental.setSurface(dto.getSurface());
         rental.setPrice(dto.getPrice());
-        rental.setPicture(dto.getPicture());
+        rental.setPicture(dto.getPicture().getOriginalFilename());
         rental.setDescription(dto.getDescription());
         rental.setCreated_at(dto.getCreated_at());
         rental.setUpdated_at(dto.getUpdated_at());
@@ -38,6 +39,9 @@ public class RentalMapper {
         );
     }
     public RentalResponseDto toRentalsResponseDto(Rental rental) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String createdAt = rental.getCreated_at().format(formatter);
+        String updatedAt = rental.getUpdated_at().format(formatter);
         return new RentalResponseDto(
                 rental.getId(),
                 rental.getName(),
@@ -45,8 +49,8 @@ public class RentalMapper {
                 rental.getPrice(),
                 rental.getPicture(),
                 rental.getDescription(),
-                rental.getCreated_at(),
-                rental.getUpdated_at(),
+                createdAt,
+                updatedAt,
                 rental.getUser().getId()
         );
     }

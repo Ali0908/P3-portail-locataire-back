@@ -33,17 +33,17 @@ public class LoginServiceImpl implements LoginService {
     private final AuthenticationManager authenticationManager;
 
     public Optional<LoginResponse> register(RegisterRequest request) {
-        LocalDate date = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        String text = date.format(formatter);
-        LocalDate parsedDate = LocalDate. parse(text, formatter);
+//        LocalDate date = LocalDate.now();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+//        String text = date.format(formatter);
+//        LocalDate parsedDate = LocalDate. parse(text, formatter);
 
         var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .created_at(parsedDate)
-                .updated_at(parsedDate)
+                .created_at(LocalDate.now())
+                .updated_at(LocalDate.now())
                 .build();
         var savedUser = repository.save(user);
         var jwtToken = jwtServiceImpl.generateToken(user);
@@ -73,12 +73,15 @@ public class LoginServiceImpl implements LoginService {
 
     public Optional<UserResponseDto> authenticate() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String createdAt = user.getCreated_at().format(formatter);
+        String updatedAt = user.getUpdated_at().format(formatter);
         return Optional.of(new UserResponseDto(
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
-                user.getCreated_at(),
-                user.getUpdated_at()
+                createdAt,
+                updatedAt
         ));
 
     }
