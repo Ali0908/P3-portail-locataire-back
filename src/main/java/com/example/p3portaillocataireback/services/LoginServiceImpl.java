@@ -34,14 +34,16 @@ public class LoginServiceImpl implements LoginService {
 
     public Optional<LoginResponse> register(RegisterRequest request) {
         LocalDate date = LocalDate.now();
-        DateTimeFormatter formattedDate = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String text = date.format(formatter);
+        LocalDate parsedDate = LocalDate. parse(text, formatter);
 
         var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .created_at(date.format(formattedDate))
-                .updated_at(date.format(formattedDate))
+                .created_at(parsedDate)
+                .updated_at(parsedDate)
                 .build();
         var savedUser = repository.save(user);
         var jwtToken = jwtServiceImpl.generateToken(user);

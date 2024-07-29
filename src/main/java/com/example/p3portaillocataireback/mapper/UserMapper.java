@@ -4,8 +4,6 @@ import com.example.p3portaillocataireback.dto.response.UserResponseDto;
 import com.example.p3portaillocataireback.entity.User;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 
 @Service
 public class UserMapper {

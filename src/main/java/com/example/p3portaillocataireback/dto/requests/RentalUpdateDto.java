@@ -2,6 +2,7 @@ package com.example.p3portaillocataireback.dto.requests;
 
 import lombok.Getter;
 
+
 public record RentalUpdateDto(
         @Getter
         String name,

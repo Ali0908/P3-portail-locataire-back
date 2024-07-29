@@ -2,7 +2,7 @@ package com.example.p3portaillocataireback.dto.requests;
 
 import lombok.Getter;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 public record UserDto(
         @Getter
@@ -12,9 +12,9 @@ public record UserDto(
         @Getter
         String email,
         @Getter
-        Timestamp created_at,
+        LocalDate created_at,
         @Getter
-        Timestamp updated_at
+        LocalDate updated_at
 
 ) {
 }
