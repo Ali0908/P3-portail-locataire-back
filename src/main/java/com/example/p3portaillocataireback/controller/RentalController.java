@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,17 +22,25 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/rentals")
 @RequiredArgsConstructor
 public class RentalController {
     private final RentalService rentalSrv;
+    @Value("${storage.image-directory}")
+    private String imageDirectory;
 
     @GetMapping
     @SecurityRequirement(name = "bearerAuth")
@@ -58,7 +67,7 @@ public class RentalController {
             @ModelAttribute("surface") Float surface,
             @ModelAttribute("price") Float price,
             @ModelAttribute("picture") MultipartFile picture,
-            @ModelAttribute("description") String description) {
+            @ModelAttribute("description") String description) throws IOException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -66,7 +75,16 @@ public class RentalController {
 
         LocalDate created_at = LocalDate.now();
         LocalDate updated_at = LocalDate.now();
-        RentalDto rentalDto = new RentalDto(name, surface, price, picture, description, created_at, updated_at, owner_id);
+
+        // Save the picture to the specified directory
+        String fileName = UUID.randomUUID() + "_" + picture.getOriginalFilename();
+        Path path = Paths.get(imageDirectory, fileName);
+        Files.copy(picture.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+        // Generate the URL for the stored image
+        String pictureUrl =  path.toString();
+
+        RentalDto rentalDto = new RentalDto(name, surface, price, pictureUrl, description, created_at, updated_at, owner_id);
 
         return rentalSrv.create(rentalDto);
     }

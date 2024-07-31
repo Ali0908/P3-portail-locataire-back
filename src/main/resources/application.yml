@@ -13,6 +13,9 @@ spring:
         format_sql: true
     database-platform: org.hibernate.dialect.MariaDBDialect
 
+storage:
+  image-directory: /home/user/oc/projects/P3-portail-locataire-back/assets
+
 application:
   security:
     jwt:
@@ -26,5 +29,6 @@ server:
     allowed-origins: "http://localhost:3001"
     allowed-methods: "GET,POST,PUT,DELETE"
     allowed-headers: "Content-Type,Accept,Authorization"
+
 
 
