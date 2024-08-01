@@ -37,6 +37,7 @@ public class RentalServiceImpl implements RentalService {
     }
     public Optional<MessageResponseDto> create(RentalDto rentalDto) {
         var rental = rentalMapper.toRental(rentalDto);
+        generateUrlFromFile(rentalDto.getPicture());
         rentalRepository.save(rental);
         return Optional.of(rentalMapper.toRentalsResponseCreatedDto());
     }
@@ -46,7 +47,7 @@ public class RentalServiceImpl implements RentalService {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file.");
             }
-            String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
             Files.copy(file.getInputStream(), this.rootLocation.resolve(filename));
             return  baseUrl + "/uploads/" + filename;
         } catch (IOException e) {
