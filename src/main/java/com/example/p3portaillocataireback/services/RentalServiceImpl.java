@@ -26,9 +26,7 @@ import java.util.stream.Collectors;
 public class RentalServiceImpl implements RentalService {
     private final RentalMapper rentalMapper;
     private final RentalRepository rentalRepository;
-    @Value("${storage.server.base-url}")
-    private String baseUrl;
-    private final Path rootLocation = Paths.get("uploads");
+
 
     @Autowired
     public RentalServiceImpl(RentalMapper rentalMapper, RentalRepository rentalRepository) {
@@ -37,22 +35,8 @@ public class RentalServiceImpl implements RentalService {
     }
     public Optional<MessageResponseDto> create(RentalDto rentalDto) {
         var rental = rentalMapper.toRental(rentalDto);
-        generateUrlFromFile(rentalDto.getPicture());
         rentalRepository.save(rental);
         return Optional.of(rentalMapper.toRentalsResponseCreatedDto());
-    }
-
-    public String generateUrlFromFile(MultipartFile file) {
-        try {
-            if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file.");
-            }
-            String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(filename));
-            return  baseUrl + "/uploads/" + filename;
-        } catch (IOException e) {
-            throw new StorageException("Failed to store file.");
-        }
     }
     public List<RentalResponseDto> getAllRentals() {
         return rentalRepository.findAll()

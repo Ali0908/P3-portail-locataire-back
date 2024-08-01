@@ -77,13 +77,6 @@ public class RentalController {
         LocalDate created_at = LocalDate.now();
         LocalDate updated_at = LocalDate.now();
 
-//        // Save the picture to the specified directory
-//        String fileName = UUID.randomUUID() + "_" + picture.getOriginalFilename();
-//
-//        Files.copy(picture.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-//
-//        // Generate the URL for the stored image
-//        String pictureUrl =  path.toString();
 
         RentalDto rentalDto = new RentalDto(name, surface, price, picture, description, created_at, updated_at, owner_id);
 

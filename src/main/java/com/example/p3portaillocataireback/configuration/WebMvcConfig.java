@@ -17,10 +17,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedHeaders("Content-Type", "Origin", "Accept", "Authorization", "Content-Length", "X-Requested-With")
                 .allowCredentials(true);
     }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/assets/**")
-                .addResourceLocations("file:/home/user/oc/projects/P3-portail-locataire-back/assets/");
-    }
 }
