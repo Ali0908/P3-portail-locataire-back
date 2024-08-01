@@ -18,7 +18,7 @@ public record RentalDto(
         @NotBlank(message = "Price is required")
         Float price,
         @Getter
-        String picture,
+        org.springframework.web.multipart.MultipartFile picture,
         @Getter
         @NotBlank(message = "Description is required")
         @Max(value = 255, message = "Description is too long")

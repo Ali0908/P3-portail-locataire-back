@@ -2,6 +2,7 @@ package com.example.p3portaillocataireback.controller.advice;
 
 import com.example.p3portaillocataireback.dto.response.LoginResponseFailed;
 import com.example.p3portaillocataireback.exceptions.BadRequestException;
+import com.example.p3portaillocataireback.exceptions.StorageException;
 import com.example.p3portaillocataireback.exceptions.UnauthorizedRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<?> handleUsernameNotFoundException() {
         return new ResponseEntity<>(new HashMap<>(), HttpStatus.UNAUTHORIZED);
+    }
+    @ExceptionHandler(StorageException.class)
+    public ResponseEntity<?> handleStoreException() {
+        return new ResponseEntity<>(new HashMap<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(UnauthorizedRequestException.class)

@@ -14,7 +14,9 @@ spring:
     database-platform: org.hibernate.dialect.MariaDBDialect
 
 storage:
-  image-directory: /home/user/oc/projects/P3/P3-portail-locataire-back/assets
+  image-directory: /home/user/oc/projects/P3/P3-portail-locataire-back/src/upload
+  server:
+    base-url: http://localhost:3001
 
 application:
   security:
