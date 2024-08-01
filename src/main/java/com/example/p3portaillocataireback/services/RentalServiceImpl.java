@@ -4,22 +4,14 @@ import com.example.p3portaillocataireback.dto.requests.RentalDto;
 import com.example.p3portaillocataireback.dto.requests.RentalUpdateDto;
 import com.example.p3portaillocataireback.dto.response.MessageResponseDto;
 import com.example.p3portaillocataireback.dto.response.RentalResponseDto;
-import com.example.p3portaillocataireback.exceptions.StorageException;
 import com.example.p3portaillocataireback.mapper.RentalMapper;
 import com.example.p3portaillocataireback.repository.RentalRepository;
 import com.example.p3portaillocataireback.services.interfaces.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
