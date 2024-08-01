@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     private final List<String> WHITE_LIST_URL = List.of("/api/auth/login",
             "/api/auth/register",
-            "http://localhost:3001/uploads/**",
+            "/uploads/**",
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html");

@@ -39,7 +39,7 @@
                 "/v3/api-docs/**",
                 "/swagger-ui/**",
                 "/swagger-ui.html",
-                "http://localhost:3001/uploads/**"
+                "/uploads/**",
         };
 
 
