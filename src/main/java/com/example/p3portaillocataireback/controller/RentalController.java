@@ -34,8 +34,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RentalController {
     private final RentalService rentalSrv;
-    @Value("${storage.image-directory}")
-    private String imageDirectory;
 
     @GetMapping
     @SecurityRequirement(name = "bearerAuth")
